@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using LibraryAPI.DTOs;
 using LibraryAPI.Services;
 
@@ -6,6 +7,7 @@ namespace LibraryAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]  // Require authentication for all endpoints in this controller
     public class BooksController : ControllerBase
     {
         private readonly IBookService _bookService;

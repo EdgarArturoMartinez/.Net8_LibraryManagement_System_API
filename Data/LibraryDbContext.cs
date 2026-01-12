@@ -13,6 +13,7 @@ namespace LibraryAPI.Data
         public DbSet<Author> Authors { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<Loan> Loans { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -72,6 +73,18 @@ namespace LibraryAPI.Data
                       .WithMany(m => m.Loans)
                       .HasForeignKey(e => e.MemberId)
                       .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // User configuration
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.FirstName).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.LastName).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.Email).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.PasswordHash).IsRequired();
+                
+                entity.HasIndex(e => e.Email).IsUnique();
             });
 
             // Seed data
